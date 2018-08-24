@@ -14,20 +14,19 @@ class IndexOf {
     }
 
     int inString(String string) {
-        int ret = -1
         int index = 0
+        def matched
 
         string.any { character ->
             matchers << new Matcher(index)
             assert matchers.size() <= subString.size()
-            def matched = matchers.find { it.next(character, index) }
+            matched = matchers.find { it.next(character, index) }
             matchers = matchers.findAll { it.stillHope }
             index++
-            ret = matched != null ? matched.index : -1
-            ret > -1
+            matched
         }
 
-        ret
+        matched ? matched.index : -1
     }
 
     private class Matcher {
