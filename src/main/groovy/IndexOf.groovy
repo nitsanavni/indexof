@@ -15,7 +15,7 @@ class IndexOf {
 
     int inString(String string) {
         int index = 0
-        def matched
+        Matcher matched
 
         string.any { character ->
             matchers << new Matcher(index)
@@ -26,22 +26,31 @@ class IndexOf {
             matched
         }
 
-        matched ? matched.index : -1
+        matched ? matched.initialIndex : -1
     }
 
     private class Matcher {
 
-        private final index
+        private final initialIndex
         private boolean stillHope = true
 
-        Matcher(int index) { this.index = index }
+        Matcher(int index) { this.initialIndex = index }
 
         boolean next(String character, int atIndex) {
-            int subStringIndex = atIndex - index
-            stillHope = stillHope &&
-                    subString.charAt(subStringIndex) == character as char
-            stillHope && subStringIndex == subString.size() - 1
+            stillHope = stillHope && stillMatchToSubString(character, atIndex)
+            boolean match = stillHope && reachedEndOfSubString(atIndex)
+            match
         }
+
+        private boolean reachedEndOfSubString(int atIndex) {
+            subStringIndex(atIndex) == subString.size() - 1
+        }
+
+        private boolean stillMatchToSubString(String character, int atIndex) {
+            subString.charAt(subStringIndex(atIndex)) == character as char
+        }
+
+        private int subStringIndex(int currentIndex) { currentIndex - initialIndex }
 
     }
 
