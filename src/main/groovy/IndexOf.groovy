@@ -21,7 +21,7 @@ class IndexOf {
         foundIndex != null ? foundIndex : -1
     }
 
-    private boolean matchAt(stringIndex) {
+    private boolean matchAt(int stringIndex) {
         (0..<subString.size()).every { subStringIndex ->
             subString[subStringIndex] == string[stringIndex + subStringIndex]
         }
